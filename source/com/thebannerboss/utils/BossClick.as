@@ -3,8 +3,8 @@
  * @author Christopher Long at The Banner Boss - @clong
  * @description Creates and adds an invisible hitArea over the entirety
  *				of the banner.  It also filters a basic clickTAG request
- *				sent from a web browser into the swf file that is the 
- *				banner.  Finally, there is a method to add a border
+ *				sent from a web browser into the banner swf file.
+ *				Finally, there is a method to add a border
  *				around the edge of the banner which is required by
  *				most websites that host ads.
  */
@@ -118,9 +118,9 @@ package com.thebannerboss.utils{
 			 
 			// rect starting at point 0, 0
 			borderRect.graphics.moveTo(0, 0);
-			borderRect.graphics.lineTo(borderRectWidth, 0); 
-			borderRect.graphics.lineTo(borderRectWidth, borderRectHeight);
-			borderRect.graphics.lineTo(0, borderRectHeight);
+			borderRect.graphics.lineTo(borderRectWidth - 1, 0); 
+			borderRect.graphics.lineTo(borderRectWidth - 1, borderRectHeight - 1);
+			borderRect.graphics.lineTo(0, borderRectHeight - 1);
 			borderRect.graphics.lineTo(0, 0); 
 			addChild(borderRect);
 		}

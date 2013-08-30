@@ -25,7 +25,12 @@ package com.thebannerboss.utils{
 		private var hitAreaHeight:uint;
 		
 		public function BossClick(loaderInfo:Object,stage:Stage) {
-			
+			//
+			trace('BossClick : Add clickTag button?  Add a border?');
+			//
+		}
+		
+		public function addClickTagBtn():void{
 			//Invisible hit area
 			hitAreaWidth = stage.stageWidth;
 			hitAreaHeight = stage.stageHeight;
@@ -47,13 +52,14 @@ package com.thebannerboss.utils{
 			//Add Click event listener to trigger actions when the banner is clicked on
 			addEventListener(MouseEvent.CLICK, clickHandler);
 			buttonMode = true;
-		
+			//
+			trace('BossClick : clickTag button added.');
 		}
 		
 		//CLICKTAG MANNIPULATION BEGIN ---!!!!!!
 		private function clickHandler(e:MouseEvent):void {
 			if (! url) {
-				trace("BossClick ACTIVATED");
+				trace("BossClick : clickTag button pressed.");
 			}else{
 				openWindow( url );
 			}
@@ -107,7 +113,8 @@ package com.thebannerboss.utils{
 		}
 		//CLICKTAG MANNIPULATION END ---!!!!!!
 		
-		//border - if no properties are set on method call, give the banner a black border that is 2 pxls thick
+		//BORDER BEGIN ---!!!!!!
+		//addBorder - if no properties are set on method call, give the banner a black border that is 2 pxls thick
 		public function addBorder(borderThickness:uint=2,borderColor:uint=0x000000):void{
 			
 			//rect visual properties
@@ -123,7 +130,11 @@ package com.thebannerboss.utils{
 			borderRect.graphics.lineTo(0, borderRectHeight - 1);
 			borderRect.graphics.lineTo(0, 0); 
 			addChild(borderRect);
+			
+			//
+			trace('BossClick : border added.');
 		}
+		//BORDER END ---!!!!!!
 
 	}
 	

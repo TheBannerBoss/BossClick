@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BossClick.as
  * @author Christopher Long at The Banner Boss - @clong
  * @description Creates and adds an invisible hitArea over the entirety
@@ -17,6 +17,7 @@ package com.thebannerboss.utils{
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.external.ExternalInterface;
+	import flash.system.Capabilities;
 	
 	public class BossClick extends Sprite{
 		
@@ -61,56 +62,21 @@ package com.thebannerboss.utils{
 			if (! url) {
 				trace("BossClick : clickTag button pressed.");
 			}else{
-				openWindow( url );
+				//Try to avoid pop-blockers by using ExternalInterface call to load url
+				if(Capabilities.playerType == "ActiveX" && Capabilities.os != "Mac" && ExternalInterface.available)
+				{
+					ExternalInterface.call("window.open", url, "_blank", "");
+				}
+				else
+				{
+					navigateToURL(new URLRequest(url), "_blank");
+				}
 			}
 		}
-		
-		private function getBrowserName():String {
-			var browser:String;
-			//Uses external interface to reach out to browser and grab browser useragent info.
-			var browserAgent:String = ExternalInterface.call("function getBrowser(){return navigator.userAgent;}");
-			//Determines brand of browser using a find index. If not found indexOf returns (-1).
-			if (browserAgent != null && browserAgent.indexOf("Firefox")>= 0) {
-				browser = "Firefox";
-			} else if (browserAgent != null && browserAgent.indexOf("Safari")>= 0) {
-				browser = "Safari";
-			} else if (browserAgent != null && browserAgent.indexOf("MSIE")>= 0) {
-				browser = "IE";
-			} else if (browserAgent != null && browserAgent.indexOf("Opera")>= 0) {
-				browser = "Opera";
-			} else {
-				browser = "Undefined";
-			}
-			return (browser);
-		}
+
 		
 		//Try to avoid pop-blockers by using ExternalInterface call to load url
-		private function openWindow(url:String, target:String = '_blank', features:String=""):void {
-			var WINDOW_OPEN_FUNCTION:String = "window.open";
-			var myURL:URLRequest = new URLRequest(url);
-			var browserName:String = getBrowserName();
-			switch (browserName) {
-					//If browser is Firefox, use ExternalInterface to call out to browser
-					//and launch window via browser's window.open method.
-				case "Firefox" :
-					ExternalInterface.call(WINDOW_OPEN_FUNCTION, url, target, features);
-					break;
-					//If IE,
-				case "IE" :
-					ExternalInterface.call("function setWMWindow() {window.open('" + url + "', '"+target+"', '"+features+"');}");
-					break;
-					// If Safari or Opera or any other;
-				case "Safari" :
-					navigateToURL(myURL, target);
-					break;
-				case "Opera" :
-					navigateToURL(myURL, target);
-					break;
-				default :
-					navigateToURL(myURL, target);
-					break;
-			}
-		}
+
 		//CLICKTAG MANNIPULATION END ---!!!!!!
 		
 		//BORDER BEGIN ---!!!!!!
